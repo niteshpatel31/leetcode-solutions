@@ -1,16 +1,12 @@
-file = vector
+bin:=main
+file:=test
+lib:=-lfmt
+run: build
 
-run:
-	$(main)	./$(file)
-
-main.o:
-	g++ -c $(file).cpp -std=c++26 -Wall  -o $(file).o
-
-main:
-	g++ $(file).cpp -std=c++26 -Wall -o && $(file)
+build:
+	g++ $(file).cpp -g -Wall -Werror -o $(bin) -std=c++23 $(lib)&& ./$(bin)
 
 clean:
-	 rm -rf $(file).o $(file) 
+	rm -rf $(file).o $(bin)
 
-.PHONY:
-	clean
+.PHONY: run build clean

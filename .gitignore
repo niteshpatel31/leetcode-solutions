@@ -1,3 +1,5 @@
+main
+.gdbinit
 .clangd
 *.out
 *.text
