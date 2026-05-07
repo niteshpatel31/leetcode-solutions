@@ -65,12 +65,21 @@ void print(const std::vector<int> &vec) {
 //   }
 // };
 
+// Prefix and Suffix some
 class Solution {
 public:
-  std::vector<int> productExceptSelf(std::vector<int> &nums) {}
-
+  std::vector<int> productExceptSelf(std::vector<int> &nums) {
+    size_t size{nums.size()};
+    std::vector<int> prefix(size, 1), suffix(size, 1);
+    for (size_t i = 1; i < size; i++)
+      prefix[i] = prefix[i - 1] * nums[i - 1];
+    for (int64_t i = size - 2; i >= 0; i--)
+      suffix[i] = suffix[i + 1] * nums[i + 1];
+    for (size_t i = 0; i < size; i++)
+      nums[i] = prefix[i] * suffix[i];
+    return nums;
+  }
 };
-
 
 int main(int argc, const char *argv[]) {
   std::vector<int> v1 = {-1, 1, 0, -3, 3};
