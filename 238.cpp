@@ -40,35 +40,10 @@ void print(const std::vector<int> &vec) {
   fmt::println("]");
 }
 
-// with division
-// class Solution {
-// public:
-//   std::vector<int> productExceptSelf(std::vector<int> &nums) {
-//     __int128 product{1}, zero{0}, idx{1};
-//     for (size_t i = 0; i < nums.size(); i++)
-//       if (nums[i] != 0)
-//         product *= nums[i];
-//       else {
-//         ++zero;
-//         idx = i;
-//       }
-//     if (zero >= 1) {
-//       nums = std::move(std::vector<int>(nums.size(), 0));
-//       if (zero == 1)
-//         nums[idx] = product;
-//     } else
-//       for (auto &e : nums) {
-//         if (e != 0)
-//           e = product / e;
-//       }
-//     return nums;
-//   }
-// };
-
-// Prefix and Suffix some
 class Solution {
 public:
-  std::vector<int> productExceptSelf(std::vector<int> &nums) {
+  // prefix and suffix
+  std::vector<int> productExceptSelf1(std::vector<int> &nums) {
     size_t size{nums.size()};
     std::vector<int> prefix(size, 1), suffix(size, 1);
     for (size_t i = 1; i < size; i++)
@@ -78,6 +53,21 @@ public:
     for (size_t i = 0; i < size; i++)
       nums[i] = prefix[i] * suffix[i];
     return nums;
+  }
+
+  std::vector<int> productExceptSelf(std::vector<int> &nums) {
+    int n = nums.size();
+    std::vector<int> output(n);
+    output[0] = 1;
+    for (int i = 1; i < n; i++) {
+      output[i] = output[i - 1] * nums[i - 1];
+    }
+    int right = 1;
+    for (int i = n - 1; i >= 0; i--) {
+      output[i] *= right;
+      right *= nums[i];
+    }
+    return output;
   }
 };
 
