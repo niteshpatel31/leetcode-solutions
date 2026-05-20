@@ -1,8 +1,9 @@
+#include <cctype>
 #include <fmt/format.h>
 
 class Solution {
 public:
-  bool isPalindrome(std::string &s) {
+  bool isPalindrome1(std::string &s) {
     if (s.size() > 1ul) {
       size_t i{0ul}, j{0ul};
       for (; i < s.size(); i++) {
@@ -23,6 +24,24 @@ public:
       }
     }
 
+    return true;
+  }
+
+  bool isPalindrome(const std::string &s) const {
+    if (s.size() > 1ul) {
+      int i{0}, j{(int)s.size() - 1};
+      while (i < j) {
+        while (i < j && !std::isalnum(s[i]))
+          ++i;
+        while (i < j && !std::isalnum(s[j]))
+          --j;
+        if (std::tolower((unsigned char)s[i]) !=
+            std::tolower((unsigned char)s[j]))
+          return false;
+        ++i;
+        --j;
+      }
+    }
     return true;
   }
 };
