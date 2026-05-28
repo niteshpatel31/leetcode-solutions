@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include <iostream>
+#include <fmt/format.h>
 #include <vector>
 
 constexpr char endl = '\n';
@@ -7,24 +7,16 @@ constexpr char endl = '\n';
 class Solution {
 public:
   int maxArea(const std::vector<int> &height) const noexcept {
-    size_t i{0}, j{height.size() - 1}, left{i}, right{j};
-    int max{}, lt{}, rt{};
+    size_t i{0}, j{height.size() - 1}, max{0}, cur{0};
     while (i < j) {
-      lt = std::min(height[left], height[j]) * j - left;
-      rt = std::min(height[i], height[right]) * right - i;
-      std::cout << "lt : " << lt << endl;
-      std::cout << "rt : " << rt << endl;
-      if (lt > rt) {
-        right = j;
-        if (lt > max)
-          max = lt;
-      } else {
-        left = i;
-        if (rt > max)
-          max = rt;
-      }
-      ++i;
-      --j;
+      cur = std::min(height[i], height[j]) * (j - i);
+      // fmt::println("cur : {0}, i : {1}, j:{2}", cur, i, j);
+      if (height[i] < height[j])
+        ++i;
+      else
+        --j;
+      if (max < cur)
+        max = cur;
     }
     return max;
   }
@@ -33,7 +25,7 @@ public:
 int main(int argc, const char *argv[]) {
   std::vector<int> v1{1, 8, 6, 2, 5, 4, 8, 3, 7}, v2{1, 1};
   Solution sl;
-  std::cout << sl.maxArea(v1) << endl;
-  std::cout << sl.maxArea(v2) << endl;
+  fmt::println("{}", sl.maxArea(v1));
+  fmt::println("{}", sl.maxArea(v2));
   return EXIT_SUCCESS;
 }
