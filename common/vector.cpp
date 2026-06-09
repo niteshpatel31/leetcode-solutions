@@ -3,7 +3,7 @@
 constexpr char endl = '\n';
 
 // vector container
-template <typename T> struct vector {
+template <typename T> class vector {
 private:
   size_t v_size = 0uz;
   size_t v_capacity = 1uz;
@@ -21,7 +21,7 @@ public:
   vector(const vector &v) { this = v; }
   ~vector() { delete ptr; }
 
-  const size_t size() { return this->v_size - 1; }
+  const size_t size() { return this->v_size; }
   const size_t capacity() { return this->v_capacity; }
   void reserve(const int &size) {
     this->ptr = new T[size];
@@ -42,15 +42,3 @@ public:
       return *(this->ptr + (sizeof(*this->ptr) * (idx - 1)));
   }
 };
-
-int main(const int argc, const char *argv[]) {
-  vector<char> v;
-  v.reserve(45);
-  v.push_back('A');
-  v.push_back('B');
-  v.push_back('C');
-  std::cout << v[0] << endl;
-  std::cout << v[1] << endl;
-  std::cout << "size : " << v.size() << endl;
-  std::cout << "capacity: " << v.capacity() << endl;
-}

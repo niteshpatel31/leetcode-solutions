@@ -1,48 +1,60 @@
-// link :
-// https://neetcode.io/problems/string-encode-and-decode/question?list=neetcode150
-
 #include <cstdlib>
-#include <iostream>
+#include <fmt/format.h>
 #include <vector>
 
 class Solution {
 public:
-  std::string encode(std::vector<std::string> &strs) {
-    std::string s;
-    size_t size = strs.size();
-    for (auto &e : strs)
-      size += e.size();
-    s.reserve(size);
-    size = 0;
-    for (auto &e : strs) {
-      s += e;
-      s += '\f';
-    }
-    return s;
-  }
+  const int evalRPN(const std::vector<std::string> &tokens) const noexcept {
+    std::vector<int> num;
+    num.reserve(tokens.size() / 2 + 1);
+    int a{}, b{};
 
-  std::vector<std::string> decode(std::string &s) {
-    std::vector<std::string> list;
-    list.reserve(s.size());
-    std::string str;
-    str.reserve(s.size());
-    for (auto &c : s) {
-      if (c == '\f') {
-        list.push_back(str);
-        str = "";
-      } else
-        str.push_back(c);
+    auto isOperator = [](const std::string &s) {
+      return s.size() == 1 &&
+             (s[0] == '+' || s[0] == '-' || s[0] == '*' || s[0] == '/');
+    };
+
+    for (const std::string &s : tokens) {
+      if (!isOperator(s))
+        num.push_back(std::atoi(s.c_str()));
+      else {
+        a = num[num.size() - 1];
+        num.pop_back();
+        b = num[num.size() - 1];
+        num.pop_back();
+        switch (s[0]) {
+        case '+':
+          b = b + a;
+          break;
+        case '-':
+          b = b - a;
+          break;
+        case '/':
+          b = b / a;
+          break;
+        case '*':
+          b = b * a;
+          break;
+        }
+        num.emplace_back(b);
+        // fmt::println(" a : {1}, b: {0}, b : {2},", b, a, ans);
+      }
     }
-    return list;
+    return num[num.size() - 1];
   }
 };
 
 int main(const int argc, const char *argv[]) {
-  std::vector<std::string> v1{"Hello", "World"};
   Solution sl;
-  std::string str = sl.encode(v1);
-  std::vector<std::string> list = sl.decode(str);
-  for (auto &e : list)
-    std::cout << e << std::endl;
+  const std::vector<std::string> v1{"2", "1", "+", "3", "*", "4", "-"},
+      v2{"4", "13", "5", "/", "+"},
+      v3{
+          "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+",
+      },
+      v4{"1", "2", "+", "3", "*", "4", "-"};
+  fmt::println("b : {}", sl.evalRPN(v1));
+  fmt::println("b : {}", sl.evalRPN(v2));
+  fmt::println("b : {}", sl.evalRPN(v3));
+  fmt::println("b : {}", sl.evalRPN(v4));
   return EXIT_SUCCESS;
 }
