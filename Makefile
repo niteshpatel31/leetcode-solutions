@@ -4,7 +4,7 @@ lib:=-lfmt
 run: build
 
 build:
-	@g++ $(file).cpp -g -Wall -Werror -Wextra -o $(bin) -std=c++23 $(lib)&& ./$(bin)
+	@g++ $(file).cpp -g -Wall -Werror -Wextra -fsanitize=address -fsanitize=undefined -o $(bin) -std=c++23 $(lib)&& ./$(bin)
 
 clean:
 	rm -rf $(file).o $(bin)
