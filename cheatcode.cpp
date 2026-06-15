@@ -2,7 +2,6 @@
 #pragma GCC target("avx,avx2,fma,sse4,popcnt,lzcnt,bmi,bmi2")
 
 #include <bits/stdc++.h>
-using namespace std;
 
 using ll = long long;
 using ull = unsigned long long;
@@ -24,4 +23,3 @@ void operator delete(void *) noexcept {}
 void operator delete[](void *) noexcept {}
 void operator delete(void *, size_t) noexcept {}
 void operator delete[](void *, size_t) noexcept {}
-

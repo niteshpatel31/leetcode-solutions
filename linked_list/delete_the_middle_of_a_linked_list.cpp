@@ -6,28 +6,19 @@
 class Solution {
 public:
   ListNode *deleteMiddle(ListNode *head) const noexcept {
-    ListNode *ptr{head}, *prev{head};
-    int cnt{};
+    ListNode *slow{head}, *prev{nullptr}, *fast{head};
 
-    while (ptr) {
-      ptr = ptr->next;
-      ++cnt;
-    }
-
-    if (cnt == 1)
+    if (!head || !head->next) {
       return nullptr;
-    cnt /= 2;
-    ++cnt;
-
-    ptr = head;
-
-    while (--cnt) {
-      prev = ptr;
-      ptr = ptr->next;
     }
 
-    prev->next = ptr->next;
-    delete ptr;
+    while (fast && fast->next) {
+      prev = slow;
+      slow = slow->next;
+      fast = fast->next->next;
+    }
+    if (prev)
+      prev->next = slow->next;
     return head;
   }
 };
